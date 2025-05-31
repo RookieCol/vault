@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
- 
+
 import { IStargate, Ticket } from "@stargatefinance/stg-evm-v2/src/interfaces/IStargate.sol";
 import { MessagingFee, OFTReceipt, SendParam } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/interfaces/IOFT.sol";
 import { OptionsBuilder } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oapp/libs/OptionsBuilder.sol";
- 
+
 contract StargateIntegrationWithCompose {
     using OptionsBuilder for bytes;
- 
+
     function prepareTakeTaxiAndAMMSwap(
         address _stargate,
         uint32 _dstEid,
@@ -18,7 +18,7 @@ contract StargateIntegrationWithCompose {
         bytes memory extraOptions = _composeMsg.length > 0
             ? OptionsBuilder.newOptions().addExecutorLzComposeOption(0, 200_000, 0) // compose gas limit
             : bytes("");
- 
+
         sendParam = SendParam({
             dstEid: _dstEid,
             to: addressToBytes32(_composer),
@@ -28,20 +28,20 @@ contract StargateIntegrationWithCompose {
             composeMsg: _composeMsg,
             oftCmd: ""
         });
- 
+
         IStargate stargate = IStargate(_stargate);
- 
+
         (, , OFTReceipt memory receipt) = stargate.quoteOFT(sendParam);
         sendParam.minAmountLD = receipt.amountReceivedLD;
- 
+
         messagingFee = stargate.quoteSend(sendParam, false);
         valueToSend = messagingFee.nativeFee;
- 
+
         if (stargate.token() == address(0x0)) {
             valueToSend += sendParam.amountLD;
         }
     }
- 
+
     function addressToBytes32(address _addr) internal pure returns (bytes32) {
         return bytes32(uint256(uint160(_addr)));
     }

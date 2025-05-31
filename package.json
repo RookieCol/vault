@@ -79,6 +79,7 @@
   },
   "dependencies": {
     "@layerzerolabs/lz-evm-oapp-v2": "^3.0.99",
+    "@stargatefinance/stg-evm-sdk-v2": "^1.1.13",
     "@stargatefinance/stg-evm-v2": "^2.0.4"
   }
 }

@@ -30,6 +30,7 @@ remappings = [
     '@openzeppelin/=node_modules/@openzeppelin/',
     '@stargatefinance/stg-evm-v2/=node_modules/@stargatefinance/stg-evm-v2/',
     '@layerzerolabs/lz-evm-oapp-v2/=node_modules/@layerzerolabs/lz-evm-oapp-v2/'
+    
 ]
 
 [fuzz]
